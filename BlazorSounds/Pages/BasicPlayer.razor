@@ -1,0 +1,30 @@
+﻿@page "/basicplayer"
+@inject IJSRuntime js;
+
+<h1>Basic Player</h1>
+
+<audio id="player" src="../sounds/creativeminds.mp3" />
+
+<button class="btn btn-dark" id="playButton" @onclick="PlaySound">Play</button>
+<button class="btn btn-danger" id="pauseButton" @onclick="PauseSound">Pause</button>
+<button class="btn btn-info" id="reloadButton" @onclick="ReloadSound">Reload</button>
+
+
+
+@code {
+    public async Task PlaySound()
+    {
+        await js.InvokeAsync<string>("PlayAudio", "player");
+
+    }
+    public async Task PauseSound()
+    {
+        await js.InvokeAsync<string>("PauseAudio", "player");
+
+    }
+    public async Task ReloadSound()
+    {
+        await js.InvokeAsync<string>("ReloadAudio", "player");
+        await PlaySound();
+    }
+}
