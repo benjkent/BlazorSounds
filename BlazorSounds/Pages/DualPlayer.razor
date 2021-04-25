@@ -1,9 +1,9 @@
-@page "/fetchdata"
+@page "/dualplayer"
 @inject HttpClient Http
 
-<h1>Weather forecast</h1>
+<h1>Playlist</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Playing a specific song from a list of available songs</p>
 
 @if (forecasts == null)
 {
@@ -32,6 +32,13 @@ else
             }
         </tbody>
     </table>
+    <div class="col-md-12 mb-4">
+        <button type="button" class="btn btn-dark px-lg-3">
+            
+        </button>
+        <button type="button" class="btn btn-dark px-lg-3"><span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span></button>
+        <button type="button" class="btn btn-dark px-lg-3"><span class="oi oi-loop-circular" title="loop-circular" aria-hidden="true"></span></button>
+    </div>
 }
 
 @code {
