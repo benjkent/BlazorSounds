@@ -3,8 +3,8 @@
 * Blazor wasm app
 * Play some songs using various degrees of complexity.
 ## Credits
-[Bensound.com](https://www.bensound.com/)
-* _no relationship_
+[Bensound.com](https://www.bensound.com/) </br>
+ _no relationship_
 ### Simple player tab
 * *Simple player tab* to play, pause, and reload song.
 * Uses one javascript file in js folder in wwwroot directory. Functions play, pause, reload 
