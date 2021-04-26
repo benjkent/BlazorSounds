@@ -1,0 +1,91 @@
+@page "/dualplayer"
+@inject HttpClient Http
+@inject IJSRuntime js
+<h1>Playlist</h1>
+
+<p>Playing a specific song from a list of available songs</p>
+
+@if (songlist == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var song in songlist)
+            {
+                <tr>
+                    <td>@song.Title</td>
+                    <td>@song.Category</td>
+                    <td>
+                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PlaySound(song)">
+                            <span class="oi oi-chevron-right" title="chevron-right" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PauseSound(song)">
+                            <span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>
+                        </button>
+                        <audio id="@song.Title" src="@String.Format(song.Url)" />
+                        
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private SongListData[] songlist;
+
+    private bool isPlaying = false;
+    private SongListData songPlaying;
+
+    protected override async Task OnInitializedAsync()
+    {
+        songlist = await Http.GetFromJsonAsync<SongListData[]>("sample-data/sounds-data.json");
+    }
+
+    public class SongListData
+    {
+        public DateTime Date { get; set; }
+        //public TimeSpan Duration { get; set; }
+        public float Duration { get; set; }
+        public string Title { get; set; }
+        public string Category { get; set; }
+        public string Url { get; set; }
+
+    }
+
+    public async Task PlaySound(SongListData name)
+    {
+        if(isPlaying == false) // first time through it will be false
+        {
+            isPlaying = true;
+            songPlaying = name;
+
+            await js.InvokeAsync<string>("PlayAudio", name.Title);
+
+        }
+        else
+        {
+            await PauseSound(songPlaying); // if it were on pause it.
+        }
+
+    }
+
+    public async Task PauseSound(SongListData name)
+    {
+        isPlaying = false;
+
+        await js.InvokeAsync<string>("PauseAudio", name.Title);
+    }
+
+}
