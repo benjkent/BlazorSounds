@@ -7,7 +7,8 @@
 * Uses one javascript file in js folder in wwwroot directory. Functions play, pause, reload 
 * Sample song is ~ 2.6 seconds long. This is added to a sounds folder in wwwroot directory.
 ### Dual player tab
-* *Dual player tab* to select a song from a list and play it 
+* *Dual player tab* to select a song from a list and play it
+* Multiple songs to play and pause 
 * Same JS as above
 * Same song storage technique as above but details loaded from json file.
 ### Howler tab
