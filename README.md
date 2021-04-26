@@ -3,7 +3,7 @@
 * Blazor wasm app
 * Play some songs using various degrees of complexity.
 ## Credits
-[Bensound.com](https://www.bensound.com/) </br>
+Music used to sample: [Bensound.com](https://www.bensound.com/) </br>
  _no relationship_
 ### Simple player tab
 * *Simple player tab* to play, pause, and reload song.
