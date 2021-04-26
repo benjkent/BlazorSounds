@@ -1,11 +1,11 @@
 @page "/dualplayer"
 @inject HttpClient Http
-
+@inject IJSRuntime js
 <h1>Playlist</h1>
 
 <p>Playing a specific song from a list of available songs</p>
 
-@if (forecasts == null)
+@if (songlist == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -14,49 +14,78 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Title</th>
+                <th>Category</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var song in songlist)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@song.Title</td>
+                    <td>@song.Category</td>
+                    <td>
+                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PlaySound(song)">
+                            <span class="oi oi-chevron-right" title="chevron-right" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PauseSound(song)">
+                            <span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>
+                        </button>
+                        <audio id="@song.Title" src="@String.Format(song.Url)" />
+                        
+
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
-    <div class="col-md-12 mb-4">
-        <button type="button" class="btn btn-dark px-lg-3">
-            
-        </button>
-        <button type="button" class="btn btn-dark px-lg-3"><span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span></button>
-        <button type="button" class="btn btn-dark px-lg-3"><span class="oi oi-loop-circular" title="loop-circular" aria-hidden="true"></span></button>
-    </div>
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+
+    private SongListData[] songlist;
+
+    private bool isPlaying = false;
+    private SongListData songPlaying;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        songlist = await Http.GetFromJsonAsync<SongListData[]>("sample-data/sounds-data.json");
     }
 
-    public class WeatherForecast
+    public class SongListData
     {
         public DateTime Date { get; set; }
+        //public TimeSpan Duration { get; set; }
+        public float Duration { get; set; }
+        public string Title { get; set; }
+        public string Category { get; set; }
+        public string Url { get; set; }
 
-        public int TemperatureC { get; set; }
-
-        public string Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
+
+    public async Task PlaySound(SongListData name)
+    {
+        if(isPlaying == false) // first time through it will be false
+        {
+            isPlaying = true;
+            songPlaying = name;
+
+            await js.InvokeAsync<string>("PlayAudio", name.Title);
+
+        }
+        else
+        {
+            await PauseSound(songPlaying); // if it were on pause it.
+        }
+
+    }
+
+    public async Task PauseSound(SongListData name)
+    {
+        isPlaying = false;
+
+        await js.InvokeAsync<string>("PauseAudio", name.Title);
+    }
+
 }
