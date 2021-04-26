@@ -10,7 +10,7 @@
 * *Dual player tab* to select a song from a list and play it
 * Multiple songs to play and pause 
 * Same JS as above
-* Same song storage technique as above but details loaded from json file.
+* Same song storage technique as above but Song data loaded from json file.
 ### Howler tab
 * *Howler tab* to use a nuget package to play songs.
 * possiblities endless...(working on it)
