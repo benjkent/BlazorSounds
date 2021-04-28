@@ -22,23 +22,25 @@ else
         <tbody>
             @foreach (var song in songlist)
             {
+                
+                var buttonId = $"button{Array.IndexOf(songlist, song)}";
+                var iconId = $"pPbuttonIcon{Array.IndexOf(songlist, song)}";
                 <tr>
                     <td>@song.Title</td>
                     <td>@song.Category</td>
                     <td>
-                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PlaySound(song)">
-                            <span id="playIcon" class="oi oi-media-play" title="media-play" aria-hidden="true"></span>
-                        </button>
                         
-                        <button type="button" class="btn btn-light" id="pauseButton" @onclick="() => PauseSound(song)">
-                            <span id="pauseIcon" class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>
+                        <button type="button" class="btn btn-light" id="@buttonId" @onclick="(e => PlaySound(song, iconId))">
+                            <span id="@iconId" class="@mediaState" title="media-play" aria-hidden="true"></span>
                         </button>
+
                         <audio id="@song.Title" src="@String.Format(song.Url)" />
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    
 }
 
 @code {
@@ -49,6 +51,8 @@ else
 
     private bool isPlaying = false;
     private SongListData songPlaying;
+
+    private string mediaState = "oi oi-media-play";
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,14 +70,17 @@ else
 
     }
 
-    public async Task PlaySound(SongListData name)
+    public async Task PlaySound(SongListData name, string iconId)
     {
-        if(isPlaying == false) // first time through it will be false
+        if (isPlaying == false) // first time through it will be false
         {
             isPlaying = true;
             songPlaying = name;
 
+            await MediaIconControl(iconId);
+
             await js.InvokeAsync<string>("PlayAudio", name.Title);
+
             DisplaySongPlaying(name.Title);
         }
         else
@@ -81,6 +88,8 @@ else
 
             await PauseSound(songPlaying); // if it were on pause it.
         }
+
+        StateHasChanged();
 
     }
 
@@ -95,6 +104,9 @@ else
     {
         SongTitle = songname;
     }
-
+    public async Task MediaIconControl(string elementId)
+    {
+        await js.InvokeAsync<string>("UpdatePlayPauseButtonIcon", elementId);
+    }
 
 }
