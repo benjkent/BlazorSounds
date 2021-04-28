@@ -11,6 +11,7 @@
 }
 else
 {
+    <a>@SongTitle</a>
     <table class="table">
         <thead>
             <tr>
@@ -26,14 +27,13 @@ else
                     <td>@song.Category</td>
                     <td>
                         <button type="button" class="btn btn-light" id="playButton" @onclick="() => PlaySound(song)">
-                            <span class="oi oi-chevron-right" title="chevron-right" aria-hidden="true"></span>
+                            <span id="playIcon" class="oi oi-media-play" title="media-play" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-light" id="playButton" @onclick="() => PauseSound(song)">
-                            <span class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>
+                        
+                        <button type="button" class="btn btn-light" id="pauseButton" @onclick="() => PauseSound(song)">
+                            <span id="pauseIcon" class="oi oi-media-pause" title="media-pause" aria-hidden="true"></span>
                         </button>
                         <audio id="@song.Title" src="@String.Format(song.Url)" />
-                        
-
                     </td>
                 </tr>
             }
@@ -42,6 +42,8 @@ else
 }
 
 @code {
+
+    private string SongTitle = "";
 
     private SongListData[] songlist;
 
@@ -72,10 +74,11 @@ else
             songPlaying = name;
 
             await js.InvokeAsync<string>("PlayAudio", name.Title);
-
+            DisplaySongPlaying(name.Title);
         }
         else
         {
+
             await PauseSound(songPlaying); // if it were on pause it.
         }
 
@@ -87,5 +90,11 @@ else
 
         await js.InvokeAsync<string>("PauseAudio", name.Title);
     }
+
+    public void DisplaySongPlaying(string songname)
+    {
+        SongTitle = songname;
+    }
+
 
 }
