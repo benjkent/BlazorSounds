@@ -9,7 +9,10 @@ window.PauseAudio = (elementName) => {
 window.ReloadAudio = (elementName) => {
     document.getElementById(elementName).load();
 }
-window.UpdatePlayPauseButtonIcon = (elementId) => {
-    document.getElementById(elementId).className = 'oi oi-media-pause'
+window.ShowPlayIcon = (elementId) => {
+    document.getElementById(elementId).className = 'oi oi-media-pause';
     
+}
+window.ShowPauseIcon = (elementId) => {
+    document.getElementById(elementId).className = 'oi oi-media-play';
 }
