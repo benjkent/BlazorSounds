@@ -1,7 +1,26 @@
 ﻿@page "/howler"
 
 <h3>howler</h3>
+<div class=".container-fluid">
+    <div class="row row-cols-3">
+        <div class="col">@Count</div>
+        <div class="col" style="text-align:center; font-size:large">@TrackTitle</div>
+        <div class="col" style="text-align:right;">@Duration</div>
+    </div>
+</div>
+
+
+
 
 @code {
+    private float Count;
+    private float Duration;
+    private string TrackTitle;
 
+    protected override void OnInitialized()
+    {
+        Count = 0.00F;
+        Duration = 2.84F;
+        TrackTitle = "Boiler Room"; 
+    }
 }
