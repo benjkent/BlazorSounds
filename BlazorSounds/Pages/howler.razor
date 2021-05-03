@@ -1,26 +1,74 @@
 ﻿@page "/howler"
+@using System.Diagnostics; 
 
 <h3>howler</h3>
-<div class=".container-fluid">
+<div class="container-fluid">
     <div class="row row-cols-3">
         <div class="col">@Count</div>
         <div class="col" style="text-align:center; font-size:large">@TrackTitle</div>
         <div class="col" style="text-align:right;">@Duration</div>
     </div>
 </div>
+<div class="container-fluid">
 
+    <div class="progress" style="height:300px; background-color: white;">
+        <div class="progress-bar bg-white" style="width:@TrackProgressValue;
+            background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));">
+        </div>
+    </div>
+    <button type="button" class="btn btn-light btn-lg" style="border-radius:30px " @onclick="(e => PlaySong())">
+        <span class="oi oi-media-play" style="font-size:40px;" title="media-play" aria-hidden="true"></span>
+    </button>
+</div>
 
 
 
 @code {
-    private float Count;
-    private float Duration;
+    private TimeSpan Count;
+    private TimeSpan Duration;
     private string TrackTitle;
+    private int TrackProgress;
+    private string TrackProgressValue;
+    private bool isPlayingNow;
+
 
     protected override void OnInitialized()
     {
-        Count = 0.00F;
-        Duration = 2.84F;
-        TrackTitle = "Boiler Room"; 
+        Duration = TimeSpan.FromSeconds(174);
+        TrackTitle = "Boiler Room";
+        isPlayingNow = false;
+        TrackProgress = 0;
+        TrackProgressValue = "0%";
+        Console.WriteLine(Duration);
     }
+    private void PlaySong()
+    {
+        if (!isPlayingNow)
+        {
+
+            isPlayingNow = true;
+            fakeProgressCount(0);
+
+        }
+        else
+        {
+            isPlayingNow = false;
+        }
+
+    }
+    private void fakeProgressCount(int value)
+    {
+        int count = value;
+        while(count <= 100)
+        {
+            TrackProgress++;
+            System.Threading.Thread.Sleep(10);
+            TrackProgressValue = $"{TrackProgress.ToString()}%";
+            count++;
+
+        }
+
+    }
+
+
 }
