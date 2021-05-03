@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Tewr.Blazor.FileReader;
 
 namespace BlazorSounds
 {
@@ -18,7 +19,8 @@ namespace BlazorSounds
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+           // allow access to local storage to load media from device. Uses Tewr.Blaazor Nuget package.
+            builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
             await builder.Build().RunAsync();
         }
     }

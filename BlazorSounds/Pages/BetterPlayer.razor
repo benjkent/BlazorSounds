@@ -1,0 +1,69 @@
+﻿@page "/betterplayer"
+@using Tewr.Blazor.FileReader
+@using System.IO;
+@inject IFileReaderService fileReaderService;
+<h3>Better Controller</h3>
+<div class="container">
+    <h3>Audio player one: Auto playing when page loads.</h3>
+    <audio controls autoplay contextmenu="audio.v">
+        <source src="./sounds/creativeminds.mp3" type="audio/mp3" />
+    </audio>
+</div>
+<br />
+<div class="container-fluid">
+    <h3>Audio player two: Audio player plays when user selects play.</h3>
+    <audio controls="controls">
+        <source src="./sounds/dubstep.mp3" type="audio/mp3" />
+    </audio>
+</div>
+<br />
+<div class="container-fluid">
+    <h3>Audio player three: User selects local track file to play.</h3>
+    <input type="file" @ref="elmRef" @onchange="OnFileChange" />
+    <ul>
+        <li>Name = @name</li>
+        <li>Type = @type</li>
+        <li>Size = @size</li>
+        <li>Date = @age</li>
+    </ul>
+
+    @if (audioData != null)
+    {
+        <audio controls autoplay>
+            <source src="@audioData" type="@type" />
+        </audio>
+
+    <!--<video controls autoplay width="300px" height="300px">
+        <source src="@audioData" type="@type" />
+    </video>-->
+    }
+    </div>
+
+
+@code {
+    string name;
+    long size;
+    string type;
+    string audioData;
+    DateTime age;
+    ElementReference elmRef;
+
+    async Task OnFileChange()
+    {
+        audioData = null;
+        var file = (await fileReaderService.CreateReference(elmRef).EnumerateFilesAsync()).FirstOrDefault();
+        var fileInfo = await file.ReadFileInfoAsync();
+        name = fileInfo.Name;
+        type = fileInfo.Type;
+        size = fileInfo.Size;
+        age = (DateTime)fileInfo.LastModifiedDate;
+
+        using (var ms = await file.CreateMemoryStreamAsync((int)fileInfo.Size))
+        {
+            var result = new MemoryStream(ms.ToArray());
+            audioData = $"data:{fileInfo.Type};base64,{Convert.ToBase64String(result.ToArray())}";
+        }
+
+    }
+}
+
