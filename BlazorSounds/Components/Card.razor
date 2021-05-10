@@ -1,0 +1,26 @@
+﻿
+<div class="card text-center border-dark mb-2">
+    <div class="card-body text-capitalize text-dark" style="background-image:url('@ImageUrl'); ">
+        <h5 class="card-title ">@CategoryName</h5>
+        <p class="card-text">@CategoryDescription</p>
+        
+        <button class="btn btn btn-outline-dark" @onclick="NavigateTo" >View Content</button>
+    </div>
+    
+</div>
+
+@code {
+    [Parameter]
+    public string ImageUrl { get; set; } =
+            "https://dummyimage.com/380x180/96897b/96897b.png";
+    [Parameter]
+    public string CategoryName { get; set; }
+    [Parameter]
+    public string CategoryDescription { get; set; }
+
+    private void NavigateTo()
+    {
+        Console.WriteLine("We are going to " + CategoryName + " page");
+    }
+
+}
