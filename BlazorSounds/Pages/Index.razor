@@ -1,105 +1,77 @@
 ﻿@page "/"
+@using BlazorSounds.Components
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Latest
-                <BSBadge Color="Color.Secondary">New</BSBadge>
-            </div>
-            <div class="card-body text-white "
-                 style="background-image:url('../images/np_image1.jpg');">
-                <h5 class="card-title">Listen to the latest content</h5>
-                <p class="card-text">Don't miss a minute...</p>
-                <a href="#" class="btn btn-primary">Listen</a>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Updated: 2 days ago</small> 
-            </div>
-        </div>
-    </div>
 
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Your Favorites
-            </div>
-            <div class="card-body text-white" style="background-image:url('../images/np_image2.jpg');">
-                <h5 class="card-title">Your favorites</h5>
-                <p class="card-text">A playlist curated by you.</p>
-                <a href="#" class="btn btn-primary">Listen</a>
-            </div>
-            <div class="card-footer ">
-                <small class="text-muted">Updated: 2 days ago</small>
-            </div>
-        </div>
+@for (int r = 0; r < rowCount; r++)
+{
+    <div class="row">
+        @if (isOdd == true) // Handle odd number of categories or whatever pairs of elements are being displayed.
+        {
+            @while (rowCount > 1)
+            {
+                @for (int i = 0; i < 2; i++)
+                {
+                    <div class="col-sm-6">
+                        <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
+                    </div>
+                    incrementValue++;
+                }
+                    rowCount--;
+             }
+                
+             @for (int i = 0; i < 1; i++)
+             {
+                 <div class="col-sm-6">
+                    <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
+                 </div>
+                 incrementValue++;
+             }
+                
+         }
+         else // Handle even number of categories or whatever pair of elements are being displayed
+         {
+             
+             @for (int i = 0; i < 2; i++)
+             {
+                 <div class="col-sm-6">
+                     <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
+                 </div>
+                 incrementValue++;
+             }
+             
+         }
+            
     </div>
-</div>
+ }
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Category One
-            </div>
-            <div class="card-body text-white" style="background-image:url('../images/np_image3.jpg'); ">
-                <h5 class="card-title">Category One</h5>
-                <p class="card-text">All the best of category one.</p>
-                <a href="#" class="btn btn-primary">Listen</a>
-            </div>
-            <div class="card-footer ">
-                <small class="text-muted">Updated: 2 days ago</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Category Two
-            </div>
-            <div class="card-body text-white" style="background-image:url('../images/np_image4.jpg'); ">
-                <h5 class="card-title ">Category Two</h5>
-                <p class="card-text">All the best of category two.</p>
-                <a href="#" class="btn btn-primary">Listen</a>
-            </div>
-            <div class="card-footer ">
-                <small class="text-muted">Updated: 2 days ago</small>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Category Three
-                <BSBadge Color="Color.Secondary">New</BSBadge>
-            </div>
-            <div class="card-body text-white" style="background-image:url('../images/np_image5.jpg'); ">
-                <h5 class="card-title">Category Three</h5>
-                <p class="card-text">All the best of category three.</p>
-                <button type="button" class="btn btn-dark">View Content
-                    <span class="oi oi-audio-spectrum pl-2" title="" aria-hidden="true"></span>
-                </button>
-            </div>
-            <div class="card-footer ">
-                <small class="text-muted">Updated: 2 days ago</small>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card text-center border-dark mb-2">
-            <div class="card-header">
-                Category Four
-            </div>
-            <div class="card-body text-white" style="background-image:url('../images/np_image6.jpg'); ">
-                <h5 class="card-title ">Category Four</h5>
-                <p class="card-text">All the best of category four.</p>
-                <a href="#" class="btn btn-primary">Listen</a>
-            </div>
-            <div class="card-footer ">
-                <small class="text-muted">Updated: 2 days ago</small>
-            </div>
-        </div>
-    </div>
-</div>
+@code
+{
+
+    public int rowCount;
+    public bool isOdd;
+    public int incrementValue = 0;
+    public int[] category = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+
+    protected override void OnInitialized()
+    {
+
+        // GET some data about categories
+        // We will use the category array for now -- JSON 
+      
+        CreateCategoryCards(category);
+    }
+
+    private void CreateCategoryCards(int[] data)
+    {
+        if(data.Length % 2 == 0)
+        {
+            rowCount = data.Length / 2;
+            isOdd = false;
+        }
+        else
+        {
+            rowCount = data.Length / 2 + 1;
+            isOdd = true;
+        }
+    }
+}
