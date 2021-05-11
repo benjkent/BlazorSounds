@@ -1,0 +1,78 @@
+﻿@page "/catlist"
+@page "/catlist/{CategoryName:int}"
+@inject IJSRuntime JsRuntime
+@using BlazorSounds.Components
+
+
+<h3>Category: @CategoryName</h3>
+
+<Carousel SlideCaptions="@CurrentCategoryList" SlideImgages="@ImageSources"></Carousel>
+
+<BSListGroup IsFlush="true">
+    @foreach (var song in CurrentCategoryList)
+    {
+        <BSListGroupItem Class="animate__animated animate__slideInUp">@song</BSListGroupItem>
+    }
+</BSListGroup>
+
+@code {
+
+    [Parameter]
+    public int CategoryName { get; set; }
+
+    public string[] CurrentCategoryList;
+
+    // Supply images for carousel Component
+    public string[] ImageSources =
+    {
+        "https://dummyimage.com/760x180/96897b/96897b.png",
+        "https://dummyimage.com/760x180/3e49e6/3e49e6.png",
+        "https://dummyimage.com/760x180/cc34cf/cc34cf.png"
+    };
+
+
+    public string[] Category1 = { "c1Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8" };
+    public string[] Category2 = { "c2Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8" };
+    public string[] Category3 = { "c3Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8" };
+    public string[] Category4 = { "c4Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8" };
+    public string[] Category5 = { "c5Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8" };
+
+    protected override void OnInitialized()
+    {
+        // get some data...
+        CreateCategoryList(CategoryName);
+
+    }
+
+    private void CreateCategoryList(int value)
+    {
+        // get the data from the correct array
+        string lookup = value.ToString();
+
+        switch (lookup)
+        {
+            case "1":
+                CurrentCategoryList = Category1;
+                break;
+            case "2":
+                CurrentCategoryList = Category2;
+                break;
+            case "3":
+                CurrentCategoryList = Category3;
+                break;
+            case "4":
+                CurrentCategoryList = Category4;
+                break;
+            case "5":
+                CurrentCategoryList = Category5;
+                break;
+            default:
+                CurrentCategoryList = Category1;
+                break;
+
+        }
+        Console.WriteLine(CurrentCategoryList[0]);
+    }
+
+
+}
