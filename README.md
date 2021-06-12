@@ -22,3 +22,4 @@ Music used to sample: [Bensound.com](https://www.bensound.com/) </br>
 * Create an original control play/pause 
 * Create a custom scrubber with touch contol to advance and rewind audio.
 * Create a current progress and track length readout 
+* *This tab uses css style-behind, and javascript modules to call JS directly. _no script in root index_
