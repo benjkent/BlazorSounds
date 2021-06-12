@@ -16,33 +16,33 @@
                     </div>
                     incrementValue++;
                 }
-                    rowCount--;
-             }
-                
-             @for (int i = 0; i < 1; i++)
-             {
-                 <div class="col-sm-6">
+                rowCount--;
+            }
+
+            @for (int i = 0; i < 1; i++)
+            {
+                <div class="col-sm-6">
                     <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
-                 </div>
-                 incrementValue++;
-             }
-                
-         }
-         else // Handle even number of categories or whatever pair of elements are being displayed
-         {
-             
-             @for (int i = 0; i < 2; i++)
-             {
-                 <div class="col-sm-6">
-                     <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
-                 </div>
-                 incrementValue++;
-             }
-             
-         }
-            
+                </div>
+                incrementValue++;
+            }
+
+        }
+        else // Handle even number of categories or whatever pair of elements are being displayed
+        {
+
+            @for (int i = 0; i < 2; i++)
+            {
+                <div class="col-sm-6">
+                    <Card CategoryDescription="Descriptions are nice..." CategoryName=@category[incrementValue].ToString() />
+                </div>
+                incrementValue++;
+            }
+
+        }
+
     </div>
- }
+}
 
 @code
 {
@@ -56,14 +56,14 @@
     {
 
         // GET some data about categories
-        // We will use the category array for now -- JSON 
-      
+        // We will use the category array for now -- JSON
+
         CreateCategoryCards(category);
     }
 
     private void CreateCategoryCards(int[] data)
     {
-        if(data.Length % 2 == 0)
+        if (data.Length % 2 == 0)
         {
             rowCount = data.Length / 2;
             isOdd = false;
