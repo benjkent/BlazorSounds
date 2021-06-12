@@ -1,6 +1,7 @@
 # BlazorSounds
 ## the basics:
 * Blazor wasm app
+* Use .NetCore and Blazor v5.0  
 * Play some songs using various degrees of complexity.
 ## Credits (many thanks)
 Music used to sample: [Bensound.com](https://www.bensound.com/) </br>
@@ -17,3 +18,7 @@ Music used to sample: [Bensound.com](https://www.bensound.com/) </br>
 ### Howler tab
 * *Howler tab* to use a nuget package to play songs.
 * possiblities endless...(working on it)
+### Been Played tab
+* Create an original control play/pause 
+* Create a custom scrubber with touch contol to advance and rewind audio.
+* Create a current progress and track length readout 
