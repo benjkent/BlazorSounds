@@ -8,12 +8,12 @@
 
 <Carousel SlideCaptions="@CurrentCategoryList" SlideImgages="@ImageSources"></Carousel>
 
-<BSListGroup IsFlush="true">
+<ul class="list-group-flush">
     @foreach (var song in CurrentCategoryList)
     {
-        <BSListGroupItem Class="animate__animated animate__slideInUp">@song</BSListGroupItem>
+        <li class="list-group-item animate__animated animate__slideInUp">@song</li>
     }
-</BSListGroup>
+</ul>
 
 @code {
 

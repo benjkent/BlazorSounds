@@ -1,0 +1,64 @@
+﻿
+.buttoncontainer #stopbutton, #playpausebutton {
+    color: black;
+    filter: drop-shadow(2px 0 3px darkgray);
+}
+
+    .buttoncontainer #stopbutton:active {
+        color: red;
+        filter: drop-shadow(2px 0 1px black);
+    }
+
+.buttoncontainer #playpausebutton:active {
+    color: green;
+    filter: drop-shadow(2px 0 1px black);
+}
+
+.controls {
+    overflow: visible;
+    background: transparent;
+    width: 100%;
+    height: 50px;
+    position: relative;
+}
+
+    .controls > * {
+        width: 100%;
+        height: 100%;
+        margin-left: 0.1953125%;
+        display: block;
+    }
+
+    .controls .progress {
+        cursor: pointer;
+        width: 75.390625%;
+    }
+
+    .controls #my-progress {
+        display: block;
+        width: 300px;
+        height: 30px;
+        margin-top: 2px;
+        margin-left: 10px;
+        padding-bottom: 10px;
+        padding-top: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: none;
+        overflow: hidden;
+        background-color: rgb(9, 15, 125, 0.81);
+        border-radius: 30px;
+    }
+
+        .controls #my-progress span {
+            width: 0%;
+            height: 100%;
+            display: inline-block;
+            /*background-color: #2a84cd; */
+            background: rgb(2,0,36);
+            background: linear-gradient(43deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 21%, rgba(0,212,255,1) 100%);
+            transition: 500ms;
+            transition-property: width;
+            transition-timing-function: ease;
+            border-radius: 25px;
+        }

@@ -1,0 +1,79 @@
+﻿@page "/beenplayed"
+@inject IJSRuntime jsRuntime
+<h3>BeenPlayed</h3>
+<audio id="audioplayer" src="@audioSource"></audio>
+
+<div id="audio-controls" class="controls" data-state="visable">
+    <div class="my-progress">
+        <div id="my-progress" value="0" min="0">
+            <span id="my-progress-bar"></span>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="container m-2 buttoncontainer">
+    <!--The play and pause buttons -->
+    <a class="icon" title="Playing" style="font-size:40px; float:left; padding-left: 10px;">
+        <i id="playpausebutton" class="oi oi-media-play" @onclick="AudioPlay"></i>
+    </a>
+    <a class="icon" title="Stop" style="font-size:40px;  padding-left: 10px;">
+        <i id="stopbutton" class="oi oi-media-stop" @onclick="AudioStop"></i>
+    </a>
+    <a class="icon" title="progress" style="font-size:12px; height:40px; padding-left:10px;">
+        <i id="currentProgress" style="color:black; ">@currentProgress</i>
+    </a>
+    <a class="icon" title="progress" style="font-size:18px; padding-left:5px;">
+        <i style="color:black; ">/</i>
+    </a>
+    <a class="icon" title="progress" style="font-size:12px; height:40px; padding-left:5px;">
+        <i id="trackLength" style="color:black; ">@trackLength</i>
+    </a>
+</div>
+<hr/>
+<button class="btn btn-outline-danger" type="button" @onclick="LoadTrackMetadata">get metadata</button>
+@code {
+    IJSObjectReference module;
+    public TimeSpan currentProgress = new TimeSpan(0, 0, 00);
+    public TimeSpan trackLength = new TimeSpan(0, 0, 00);
+
+    public string audioSource = "../sounds/creativeminds.mp3";
+
+    public bool isplaying = false;
+
+    protected override async void OnInitialized()
+    {
+        module = await jsRuntime
+            .InvokeAsync<IJSObjectReference>("import", "../js/player.js");
+    }
+
+    public async Task AudioPlay()
+    {
+        // use javascript to change icon
+        if (isplaying == false)
+        {
+            isplaying = true;
+            await module.InvokeAsync<string>("playbuttonaudio", isplaying);
+        }
+        else
+        {
+            isplaying = false;
+            await module.InvokeAsync<string>("playbuttonaudio", isplaying);
+        }
+    }
+
+    public async Task AudioStop()
+    {
+        isplaying = false;
+        await module.InvokeAsync<string>("stopbuttonaudio");
+
+    }
+
+    public async Task LoadTrackMetadata()
+    {
+
+        await module.InvokeAsync<string>("loadmetadata");
+        await module.InvokeAsync<string>("currenttime");
+    }
+
+
+}
