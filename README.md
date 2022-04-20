@@ -1,7 +1,7 @@
 # BlazorSounds
 ## the basics:
 * Blazor wasm app
-* Use .NetCore and Blazor v5.0  
+* Use .NetCore 6.0 and Blazor 
 * Play some songs using various degrees of complexity.
 ## Credits (many thanks)
 Music used to sample: [Bensound.com](https://www.bensound.com/) </br>
