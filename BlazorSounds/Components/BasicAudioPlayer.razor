@@ -1,0 +1,43 @@
+﻿<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <img src="@ImageSource" alt="Image related to media" class="img-thumbnail rounded-circle border-bottom-0" /> 
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <p>@Artist</p> 
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h4>@Title</h4>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <p>@Subtitle</p> 
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <audio controls>
+                <source src="@AudioSource" type="audio/mp3" />
+                <p>Sorry your browser does not support HTML5 Audio</p>
+            </audio>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string ImageSource { get; set; } = "../images/creativeminds.jpg";
+    [Parameter]
+    public string Artist { get; set; } = "Benjamin Tissot";
+    [Parameter]
+    public string Title { get; set; } = "Creative Minds";
+    [Parameter]
+    public string Subtitle { get; set; } = "Credit: Bensounds.com";
+    [Parameter]
+    public string AudioSource { get; set; } = "../sounds/creativeminds.mp3";
+}
