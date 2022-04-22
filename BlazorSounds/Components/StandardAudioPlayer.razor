@@ -1,0 +1,94 @@
+﻿@using Microsoft.JSInterop
+
+<div class="container mb-4">
+    <div class="row justify-content-center mb-2">
+        <div class="col-auto">
+            <img src="@ImageSource" alt="@ImageAltText" class="img-thumbnail rounded-circle border-bottom-0" />
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <p>@ArtistName</p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h3>@AudioTitle</h3>
+        </div>
+    </div>  
+</div>
+
+<div class="container ">
+    <audio id="@AudioElementId" src="@AudioSource"></audio>
+    <div class="row justify-content-center">
+        <div class="col-auto p-0">
+             <button class="btn btn-outline-dark" id="playButton" @onclick="PlayAudio">
+                 <div class="row justify-content-center">
+                     <div class="col-auto">
+                            <i class="oi oi-media-play px-1" aria-hidden="true"/>
+                     </div>
+                 </div>
+                 <div class="row justify-content-center">
+                     <div class="col-auto mt-1">
+                            <p>Play</p>
+                     </div>
+                 </div> 
+             </button>
+             <button class="btn btn-outline-secondary " id="pauseButton" @onclick="PauseAudio">
+                 <div class="row justify-content-center">
+                     <div class="col-auto">
+                            <i class="oi oi-media-pause px-1" aria-hidden="true"/>
+                     </div>
+                 </div>
+                 <div class="row justify-content-center">
+                     <div class="col-auto mt-1">
+                            <p>Pause</p>
+                     </div>
+                 </div> 
+              </button>
+             <button class="btn btn-outline-info" id="reloadButton" @onclick="ReloadAudio">
+                 <div class="row justify-content-center">
+                     <div class="col-auto">
+                            <i class="oi oi-reload px-1" aria-hidden="true"/>
+                     </div>
+                 </div>
+                 <div class="row justify-content-center">
+                     <div class="col-auto mt-1">
+                            <p>Reload</p>
+                     </div>
+                 </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+     [Parameter, EditorRequired]
+    public string AudioElementId { get; set; } = "player";
+    [Parameter]
+    public string ImageSource { get; set; } = "../images/smallsunset.jpg";
+    [Parameter]
+    public string ImageAltText { get; set; } = "Cover Art";
+    [Parameter, EditorRequired]
+    public string AudioSource { get; set; } = "../sounds/creativeminds.mp3";
+    [Parameter]
+    public string AudioTitle { get; set; } = "Unknown Title";
+    [Parameter]
+    public string ArtistName { get; set; } = "Unknown Artist";
+
+    [Inject]
+    public IJSRuntime JsRuntime {get;set;}
+    private IJSObjectReference jsModule;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "../js/StandardAudioPlayer.js");
+        }
+    }
+   
+    public async Task PlayAudio() => await jsModule.InvokeAsync<string>("PlayAudio", AudioElementId);
+    public async Task PauseAudio() => await jsModule.InvokeAsync<string>("PauseAudio", AudioElementId);
+    public async Task ReloadAudio() => await jsModule.InvokeAsync<string>("ReloadAudio", AudioElementId);
+}
