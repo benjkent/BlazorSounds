@@ -5,6 +5,6 @@ export function PlayAudio(elementName) {
 export function PauseAudio(elementName) {
     document.getElementById(elementName).pause();
 }
-export function ReloadAudio(element) {
+export function ReloadAudio(elementName) {
     document.getElementById(elementName).load();
 }
